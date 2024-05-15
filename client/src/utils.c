@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: florian <florian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 15:32:13 by florian           #+#    #+#             */
-/*   Updated: 2024/05/15 16:29:41 by florian          ###   ########.fr       */
+/*   Created: 2024/05/13 10:31:29 by florian           #+#    #+#             */
+/*   Updated: 2024/05/13 10:44:58 by florian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/server.h"
+#include "../inc/client.h"
 
-int	main(void)
+/* todo descr */
+int	ft_atoi(const char *nptr)
 {
-	struct sigaction	sa;
-	sigset_t			mask;
+	int	i;
+	int	sign;
+	int	res;
 
-	sigemptyset(&mask);
-	sa.sa_handler = 0;
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_mask = mask;
-	sa.sa_sigaction = &handle_signal;
-	sigaction(SIGUSR1, &sa, 0);
-	sigaction(SIGUSR2, &sa, 0);
-	ft_printf("%d\n", getpid());
-	while (1)
-		pause();
-	return (0);
+	sign = 1;
+	res = 0;
+	i = 0;
+	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == ' ')
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		if (nptr[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		res = res * 10 + (nptr[i] - '0');
+		i++;
+	}
+	return (res * sign);
 }

@@ -6,7 +6,7 @@
 #    By: florian <florian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/16 15:20:27 by florian           #+#    #+#              #
-#    Updated: 2024/04/17 13:33:52 by florian          ###   ########.fr        #
+#    Updated: 2024/05/13 13:02:33 by florian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ NAME = client
 # **************************************************************************** #
 
 MAIN	= client.c
-SRC		= 
+SRC		= signal.c utils.c
 
 # **************************************************************************** #
 #                                   PATH                                       #
@@ -36,7 +36,7 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 INCLUDE_DIR	= inc/
 
-SRC		= $(addprefix $(SRC_DIR), $(SRC))
+SRCS		= $(addprefix $(SRC_DIR), $(SRC))
 OBJ		= $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_DIR), $(OBJ))
 

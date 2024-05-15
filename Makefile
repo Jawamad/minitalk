@@ -6,7 +6,7 @@
 #    By: florian <florian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 14:51:14 by florian           #+#    #+#              #
-#    Updated: 2024/04/16 16:12:08 by florian          ###   ########.fr        #
+#    Updated: 2024/05/06 10:54:30 by florian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,81 +15,45 @@
 #                                   CONFIG                                     #
 # **************************************************************************** #
 
-CC = gcc
-RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror -g
-LIBFT = ./libft/libft.a
-NAME_CLIENT = client
-NAME_SERVER = server
+PRINTF = ./printf/printf.a
+CLIENT = ./client/client.a
+SERVER = ./server/server.a
 
 # **************************************************************************** #
 #                                   FILES                                      #
 # **************************************************************************** #
 
-MAIN_CLIENT = client.c
-MAIN_SERVER = server.c
-SRC_CLIENT = 
-SRC_SERVER = 
 
 # **************************************************************************** #
 #                                   PATH                                       #
 # **************************************************************************** #
 
-SRC_DIR_CLIENT = client/
-SRC_DIR_SERVER = server/
-OBJ_DIR = obj/
-INCLUDE_DIR	= inc/
-# a verifier src = srcs
-SRC_CLIENT	= $(addprefix $(SRC_DIR_CLIENT), $(SRC_CLIENT))
-OBJ_CLIENT	= $(SRC_CLIENT:.c=.o)
-OBJS_CLIENT	= $(addprefix $(OBJ_DIR), $(OBJ_CLIENT))
-
-SRC_SERVER	= $(addprefix $(SRC_DIR_SERVER), $(SRC_SERVER))
-OBJ_SERVER	= $(SRC_SERVER:.c=.o)
-OBJS_SERVER	= $(addprefix $(OBJ_DIR), $(OBJ_SERVER))
-
-
-
-MAIN_CLIENT	= $(addprefix $(SRC_DIR_SERVER), $(SRC_SERVER))
-OBJ_SERVER	= $(SRC_SERVER:.c=.o)
-OBJS_SERVER	= $(addprefix $(OBJ_DIR), $(OBJ_SERVER))
-
-OBJ_MAIN  	= $(MAIN:.c=.o)
-OBJS_MAIN	= $(addprefix $(OBJ_DIR), $(OBJ_MAIN))
 
 # **************************************************************************** #
 #                                   RULES                                      #
 # **************************************************************************** #
 
-all : $(NAME)
+all : $(CLIENT)
 
-bonus : $(NAME_BONUS) 
+$(PRINTF):
+	@make -C ./printf
 
-$(LIBFT):
-	@make -C ./libft
+$(CLIENT): $(SERVER) $(PRINTF)
+	@make -C ./client
 
-$(NAME): $(OBJS) $(OBJS_MAIN) $(LIBFT)
-	@$(CC) $(CFLAGS) -I $(INCLUDE_DIR) -o $@ $(OBJS) $(OBJS_MAIN) $(LIBFT)
-
-$(NAME_BONUS): $(OBJS) $(OBJS_BONUS) $(LIBFT)
-	@$(CC) $(CFLAGS) -I $(INCLUDE_DIR) -o $@ $(OBJS) $(OBJS_BONUS) $(LIBFT)
-
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@mkdir -p $(OBJ_DIR)
-	@${CC} ${CFLAGS} -c $< -o $@ -I $(INCLUDE_DIR)
-
-$(OBJ_DIR)%.o: $(MAIN)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(SERVER): $(PRINTF)
+	@make -C ./server
 
 clean:
-	@$(RM) $(OBJ_DIR)
-	@$(RM) $(OBJ_BONUS)
-	@make clean -C ./libft
+	@make clean -C ./printf
+	@make clean -C ./client
+	@make clean -C ./server
 
 fclean: clean
-	@$(RM) $(NAME)
-	@$(RM) $(NAME_BONUS)
-	@$(RM) $(LIBFT)
+	@make fclean -C ./printf
+	@make fclean -C ./client
+	@make fclean -C ./server
 
 re : fclean all
 
